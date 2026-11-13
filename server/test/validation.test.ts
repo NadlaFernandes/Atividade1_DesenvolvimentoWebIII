@@ -1,6 +1,7 @@
 import { HttpError } from "../src/errors";
 import { parseId, positiveInteger, validateBody, validateName } from "../src/validation";
 
+// Confere o tipo do erro e o status 400 usado nas entradas inválidas.
 function expectBadRequest(run: () => unknown) {
   try { run(); } catch (error) {
     expect(error).toBeInstanceOf(HttpError);
@@ -11,6 +12,7 @@ function expectBadRequest(run: () => unknown) {
 }
 
 describe("positiveInteger", () => {
+  // Os casos de cada tabela são executados separadamente para identificar a entrada rejeitada.
   test.each([1, 2147483647])("aceita o limite %s", value => expect(positiveInteger(value, "RA")).toBe(value));
   test.each([0, -1, 1.5, NaN, Infinity, 2147483648, "123", null, undefined])("rejeita %p", value => expectBadRequest(() => positiveInteger(value, "RA")));
 });
@@ -26,6 +28,7 @@ describe("validateName", () => {
 });
 
 describe("validateBody", () => {
+  // Além da validação, estes casos garantem que o objeto original não é alterado nem copiado.
   test("aceita objeto congelado sem modificá-lo", () => {
     const body = Object.freeze({ name: "Ana" });
     expect(validateBody(body)).toBe(body);

@@ -2,6 +2,7 @@ import { PgStudentRepository } from "../../../src/modules/students/students.repo
 import type { Database } from "../../../src/database/connection";
 
 const norm = (sql: string) => sql.replace(/\s+/g, " ").trim();
+// O banco é substituído por query simulada para inspecionar SQL e parâmetros sem conexão real.
 describe("PgStudentRepository", () => {
   let query: jest.Mock; let repo: PgStudentRepository;
   beforeEach(() => { query = jest.fn(); repo = new PgStudentRepository({ query } as unknown as Database); });

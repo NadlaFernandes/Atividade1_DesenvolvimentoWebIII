@@ -2,6 +2,7 @@ import { PgCourseRepository } from "../../../src/modules/courses/courses.reposit
 import type { Database } from "../../../src/database/connection";
 
 const norm = (sql: string) => sql.replace(/\s+/g, " ").trim();
+// O mock de query simula a resposta do PostgreSQL; norm ignora apenas diferenças de espaçamento.
 describe("PgCourseRepository", () => {
   let query: jest.Mock; let repo: PgCourseRepository;
   beforeEach(() => { query = jest.fn(); repo = new PgCourseRepository({ query } as unknown as Database); });

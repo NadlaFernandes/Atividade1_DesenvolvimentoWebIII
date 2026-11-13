@@ -3,6 +3,7 @@ import type { CourseRepository } from "../../../src/modules/courses/courses.repo
 import { HttpError } from "../../../src/errors";
 
 describe("CoursesService", () => {
+  // O repositório falso controla as respostas sem abrir conexão com PostgreSQL.
   let repo: { create: jest.Mock; findAll: jest.Mock; findOne: jest.Mock };
   let service: CoursesService;
   beforeEach(() => {
@@ -27,6 +28,7 @@ describe("CoursesService", () => {
     const action = method === "create" ? service.create({ name: "Qualidade" }) : method === "findAll" ? service.findAll() : service.findOne(1);
     await expect(action).rejects.toBe(failure);
   });
+  // O spy observa um método existente e confirma o argumento encaminhado pelo serviço.
   test("spy observa findOne do stub", async () => { const row = { id: 1, name: "Qualidade" }; repo.findOne.mockResolvedValue(row); const spy = jest.spyOn(repo, "findOne"); await expect(service.findOne(1)).resolves.toBe(row); expect(spy).toHaveBeenCalledWith(1); });
   test("remove campos extras antes de criar", async () => { repo.create.mockResolvedValue({ id: 1, name: "Qualidade" }); await service.create({ name: "Qualidade", extra: true }); expect(repo.create).toHaveBeenCalledWith({ name: "Qualidade" }); });
 });

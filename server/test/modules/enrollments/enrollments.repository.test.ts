@@ -2,6 +2,7 @@ import { PgEnrollmentRepository } from "../../../src/modules/enrollments/enrollm
 import type { Database } from "../../../src/database/connection";
 
 const norm = (sql: string) => sql.replace(/\s+/g, " ").trim();
+// Mantém explícitos os aliases exigidos pela API e normaliza espaços antes de comparar o SQL.
 const fields = 'student_ra AS "studentRa", course_id AS "courseId", enrolled_at AS "enrolledAt"';
 describe("PgEnrollmentRepository", () => {
   let query: jest.Mock; let repo: PgEnrollmentRepository;

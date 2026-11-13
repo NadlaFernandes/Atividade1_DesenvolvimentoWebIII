@@ -2,6 +2,7 @@ import { EnrollmentsService } from "../../../src/modules/enrollments/enrollments
 import type { EnrollmentRepository } from "../../../src/modules/enrollments/enrollments.repository";
 
 describe("EnrollmentsService", () => {
+  // O repositório simulado fornece resultados previsíveis e registra os argumentos recebidos.
   let repo: { create: jest.Mock; findAll: jest.Mock; findOne: jest.Mock }; let service: EnrollmentsService;
   beforeEach(() => { repo = { create: jest.fn(), findAll: jest.fn(), findOne: jest.fn() }; service = new EnrollmentsService(repo as unknown as EnrollmentRepository); });
   test("cria matrícula com ids em ordem", async () => { const row = { studentRa: 123, courseId: 1, enrolledAt: new Date("2026-01-01T00:00:00Z") }; repo.create.mockResolvedValue(row); await expect(service.create({ studentRa: 123, courseId: 1 })).resolves.toBe(row); expect(repo.create).toHaveBeenCalledWith(123, 1); });

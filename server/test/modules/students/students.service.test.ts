@@ -2,6 +2,7 @@ import { StudentsService } from "../../../src/modules/students/students.service"
 import type { StudentRepository } from "../../../src/modules/students/students.repository";
 
 describe("StudentsService", () => {
+  // O mock substitui o repositório e permite conferir chamadas sem depender do banco.
   let repo: { create: jest.Mock; findAll: jest.Mock; findOne: jest.Mock }; let service: StudentsService;
   beforeEach(() => { repo = { create: jest.fn(), findAll: jest.fn(), findOne: jest.fn() }; service = new StudentsService(repo as unknown as StudentRepository); });
   test("cria aluno e encaminha dados", async () => { const row = { ra: 123, name: "Ana" }; repo.create.mockResolvedValue(row); await expect(service.create(row)).resolves.toBe(row); expect(repo.create).toHaveBeenCalledWith(row); });
